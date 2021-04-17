@@ -1,0 +1,16 @@
+.app-timer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.timer {
+    border: 5px solid black;
+    display: flex;
+    justify-content: center;
+    width: 350px;
+    height: 350px;
+    border-radius: 15px;
+    margin-top: 15px;
+}
