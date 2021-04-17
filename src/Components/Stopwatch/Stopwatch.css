@@ -1,3 +1,9 @@
+.stopwatch-and-lap-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .stopwatch-container {
     width: 350px;
     height: 350px;
@@ -32,4 +38,23 @@
     width: 120px;
     height: 80px;
     font-size: 2em;
+}
+
+.lap-counter-container {
+    width: 315px;
+    border: 5px solid black;
+    border-radius: 30px;
+    height: 315px;
+    margin: 35px 35px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lap-display {
+    width: 250px;
+    background-color: teal;
+    height: 250px;
+    border-radius: 10px;
 }

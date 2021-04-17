@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './Stopwatch.css';
+// import StopwatchLapLog from '../StopwatchLapLog/StopwatchLapLog.jsx';
 
 export default class Stopwatch extends React.Component {
     state = {
@@ -13,7 +14,9 @@ export default class Stopwatch extends React.Component {
         this.setState({
             timerOn: true,
             timerTime: this.state.timerTime,
-            timerStart: Date.now() - this.state.timerTime
+            timerStart: Date.now() - this.state.timerTime,
+            timerElapsed: 0,
+            timerLaps: []
         })
 
         this.timer = setInterval(() => {
@@ -21,6 +24,18 @@ export default class Stopwatch extends React.Component {
                 timerTime: Date.now() - this.state.timerStart
             });
         }, 10);
+    }
+
+    lapTimer = () => {
+        const {timerElapsed, timerLaps} = this.state;
+        this.setState({
+            timerLaps: timerLaps.concat(timerElapsed)
+        });
+    }
+
+    update = ()=> {
+        const {timerStart, timerElapsed} = this.state;
+
     }
 
     stopTimer = () => {
@@ -32,7 +47,8 @@ export default class Stopwatch extends React.Component {
     resetTimer = () => {
         this.setState({
             timerStart: 0,
-            timerTime: 0
+            timerTime: 0,
+            timerLap: 0
         })
     }
 
@@ -47,17 +63,24 @@ export default class Stopwatch extends React.Component {
         let hours = ("0" + Math.floor(timerTime / 3600000)).slice(-2);
 
         return(
-            <div className="stopwatch-container">
-                <div className="stopwatch-header">Stopwatch</div>
-                <div className="stopwatch-time-display">{hours}:{minutes}:{seconds}:{centiseconds}</div>
-                <div className="stopwatch-controls">
-                    <div className="start-stop-resume">
-                        {this.state.timerOn === false && this.state.timerTime === 0 && (<button className="stopwatch-button" onClick={this.startTimer}>Start</button>)}
-                        {this.state.timerOn === true && (<button className="stopwatch-button" onClick={this.stopTimer}>Stop</button>)}
-                        {this.state.timerOn === false && this.state.timerTime > 0 && (<button className="stopwatch-button" onClick={this.startTimer}>Resume</button>)}
-                    </div>
-                    <div className="resume">
-                        {(this.state.timerOn === false && this.state.timerTime > 0) ? <button className="stopwatch-button" onClick={this.resetTimer}>Reset</button>: <button className="stopwatch-button" disabled onClick={this.resetTimer}>Reset</button>}
+            <div className="stopwatch-and-lap-container">
+                <div className="stopwatch-container">
+                    <div className="stopwatch-header">Stopwatch</div>
+                    <div className="stopwatch-time-display">{hours}:{minutes}:{seconds}:{centiseconds}</div>
+                    <div className="stopwatch-controls">
+                        <div className="start-stop-resume">
+                            {this.state.timerOn === false && this.state.timerTime === 0 && (<button className="stopwatch-button" onClick={this.startTimer}>Start</button>)}
+                            {this.state.timerOn === true && (<button className="stopwatch-button" onClick={this.stopTimer}>Stop</button>)}
+                            {this.state.timerOn === false && this.state.timerTime > 0 && (<button className="stopwatch-button" onClick={this.startTimer}>Resume</button>)}
+                        </div>
+                        <div className="resume">
+                            {(this.state.timerOn === true && this.state.timerTime > 0) 
+                                ? <button className="stopwatch-button" onClick={this.lapTimer}>Lap</button>
+                                : (this.state.timerOn === false && this.state.timerTime > 0)
+                                ?<button className="stopwatch-button" onClick={this.resetTimer}>Reset</button>
+                                :<button className="stopwatch-button" disabled onClick={this.resetTimer}>Reset</button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
